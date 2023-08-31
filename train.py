@@ -86,6 +86,7 @@ def main(config: DictConfig):
         # low_cpu_mem_usage=True, 
         torch_dtype=policy_dtype, 
         trust_remote_code=True,
+        device_map="auto",
         **model_kwargs
     )
     disable_dropout(policy)
