@@ -78,7 +78,7 @@ def main(config: DictConfig):
  
     os.environ['XDG_CACHE_HOME'] = get_local_dir(config.local_dirs)
     print('building policy')
-    # model_kwargs = {'device_map': 'balanced'} if config.trainer == 'BasicTrainer' else {}
+    model_kwargs = {} #{'device_map': 'balanced'} if config.trainer == 'BasicTrainer' else {}
     policy_dtype = getattr(torch, config.model.policy_dtype)
     policy = transformers.AutoModelForCausalLM.from_pretrained(
         config.model.name_or_path, 
