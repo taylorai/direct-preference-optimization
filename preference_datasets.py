@@ -159,6 +159,26 @@ def get_hh(split: str, silent: bool = False, cache_dir: str = None) -> Dict[str,
 
     return data
 
+def get_rlcd(split: str, silent: bool = False, cache_dir: str = None):
+    print(f'Loading RLCD dataset from Huggingface...')
+    dataset = datasets.load_dataset(
+        'TaylorAI/RLCD-generated-preferences-split',
+        split=("validation" if split == "test" else "train"), 
+        cache_dir=get_local_dir('datasets')
+    )
+    print('done')
+    data = defaultdict(lambda: defaultdict(list))
+    for row in tqdm.tqdm(dataset, desc='Processing RLCD', disable=silent):
+        prompt = row['instruction']
+        chosen = row['output_1'] if row['preference'] in [1, "1"] else row['output_2']
+        rejected = row['output_2'] if row['preference'] in [1, "1"] else row['output_1']
+        responses = [chosen, rejected]
+        n_responses = len(data[prompt]['responses'])
+        data[prompt]['pairs'].append((n_responses, n_responses + 1))
+        data[prompt]['responses'].extend(responses)
+        data[prompt]['sft_target'] = chosen
+    
+    return data
 
 def get_dataset(name: str, split: str, silent: bool = False, cache_dir: str = None):
     """Load the given dataset by name. Supported by default are 'shp', 'hh', and 'se'."""
@@ -168,6 +188,8 @@ def get_dataset(name: str, split: str, silent: bool = False, cache_dir: str = No
         data = get_hh(split, silent=silent, cache_dir=cache_dir)
     elif name == 'se':
         data = get_se(split, silent=silent, cache_dir=cache_dir)
+    elif name == 'rlcd':
+        data = get_rlcd(split, silent=silent, cache_dir=cache_dir)
     else:
         raise ValueError(f"Unknown dataset '{name}'")
 
