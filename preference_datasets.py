@@ -162,7 +162,7 @@ def get_hh(split: str, silent: bool = False, cache_dir: str = None) -> Dict[str,
 def get_rlcd(split: str, silent: bool = False, cache_dir: str = None):
     print(f'Loading RLCD dataset from Huggingface...')
     dataset = datasets.load_dataset(
-        'TaylorAI/RLCD-generated-preferences-split',
+        'TaylorAI/RLCD-generated-preference-data-split',
         split=("validation" if split == "test" else "train"), 
         cache_dir=get_local_dir('datasets')
     )
