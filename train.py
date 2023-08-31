@@ -100,6 +100,7 @@ def main(config: DictConfig):
             torch_dtype=reference_model_dtype, 
             trust_remote_code=True,
             load_in_8bit=True,
+            device_map="auto",
             **model_kwargs)
         disable_dropout(reference_model)
     else:
