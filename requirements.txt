@@ -11,4 +11,6 @@ hydra-core==1.3.2
 tensor-parallel==1.2.4
 ninja
 sentencepiece
+bitsandbytes
+peft
 protobuf~=3.20.0

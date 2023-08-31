@@ -99,6 +99,7 @@ def main(config: DictConfig):
             low_cpu_mem_usage=True, 
             torch_dtype=reference_model_dtype, 
             trust_remote_code=True,
+            load_in_8bit=True,
             **model_kwargs)
         disable_dropout(reference_model)
     else:
