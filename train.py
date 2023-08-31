@@ -83,7 +83,7 @@ def main(config: DictConfig):
     policy = transformers.AutoModelForCausalLM.from_pretrained(
         config.model.name_or_path, 
         cache_dir=get_local_dir(config.local_dirs), 
-        low_cpu_mem_usage=True, 
+        # low_cpu_mem_usage=True, 
         torch_dtype=policy_dtype, 
         trust_remote_code=True,
         **model_kwargs
